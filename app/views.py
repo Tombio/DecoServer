@@ -9,7 +9,7 @@ def index():
     print("Usage: /deco-air/<Depth>/<Time>")
 
 @app.route('/deco-air/<int:depth>/<int:time>')
-def deco(depth, time)
+def deco(depth, time):
     engine = decotengu.create()
     engine.add_gas(0, 21)
 
