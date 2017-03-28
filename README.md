@@ -1,2 +1,3 @@
 # DecoServer
-Python/Flask back-end to process DecoTengu based dive plans
+
+Little Python/Flask REST API for dive planning etc. using [DecoTengu Library](https://wrobell.dcmod.org/decotengu/)
