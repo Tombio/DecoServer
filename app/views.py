@@ -1,11 +1,12 @@
 from app import app
-from flask import Flask, jsonify, Response
+from flask import Flask, jsonify, Response, render_template
 import decotengu
 
 @app.route('/')
 @app.route('/index')
 def index():
-    return Response('Usage: /deco/air/[Depth]/[Time]')
+    return render_template('index.html')
+    #return Response('Usage: /deco/air/[Depth]/[Time]')
 
 # /deco/air/:depth/:time?algorithm&gradient_factor_min&gradient_factor_max
 # /deco/ean/:oxygen/:depth/:time
