@@ -7,10 +7,23 @@ import decotengu
 def index():
     return Response('Usage: /deco-air/[Depth]/[Time]')
 
-@app.route('/deco-ean/<int:ean>/<int:depth>/<int:time>')
-def deco_ean(ean, depth, time):
+# /deco/air/:depth/:time?algorithm&gradient_factor_min&gradient_factor_max
+# /deco/ean/:oxygen/:depth/:time
+# /deco/trimix/:oxygen/:helium/:depth/:time
+# /deco/multigas/:depth/:time?gaslist
+# - gaslist [oxygen;helium@depth]
+
+# /phases/air/:depth/:time
+# /phases/ean/:oxygen/:depth/:time
+# /phases/trimix/:oxygen/:helium/:depth/:time
+# /phases/multigas/:depth/:time?gaslist
+# - gaslist [oxygen;helium@depth]
+
+
+@app.route('/deco/trimix/<int:oxygen>/<int:helium>/<int:depth>/<int:time>')
+def deco(oxygen, helium, depth, time):
     engine = decotengu.create()
-    engine.add_gas(0, ean)
+    engine.add_gas(0, oxygen, helium)
     engine.last_stop_6m = True
 
     profile = engine.calculate(depth, time)
@@ -29,12 +42,16 @@ def deco_ean(ean, depth, time):
     return jsonify(stops)
     #return Response(json.dumps(engine.deco_table), mimetype='application/json')
 
-@app.route('/deco-air/<int:depth>/<int:time>')
+@app.route('/deco/ean/<int:oxygen>/<int:depth>/<int:time>')
+def deco_ean(oxygen, depth, time):
+    return deco(oxygen, 0, depth, time)
+
+@app.route('/deco/air/<int:depth>/<int:time>')
 def deco_air(depth, time):
     return deco_ean(21, depth, time)
 
 
-@app.route('/phases-air/<int:depth>/<int:time>')
+@app.route('/phases/air/<int:depth>/<int:time>')
 def phases_air(depth, time):
     engine = decotengu.create()
     engine.add_gas(0, 21)
