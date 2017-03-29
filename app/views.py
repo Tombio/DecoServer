@@ -5,7 +5,7 @@ import decotengu
 @app.route('/')
 @app.route('/index')
 def index():
-    return Response('Usage: /deco-air/[Depth]/[Time]')
+    return Response('Usage: /deco/air/[Depth]/[Time]')
 
 # /deco/air/:depth/:time?algorithm&gradient_factor_min&gradient_factor_max
 # /deco/ean/:oxygen/:depth/:time
