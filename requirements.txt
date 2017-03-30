@@ -1,3 +1,4 @@
 decotengu==0.14.0
 flask==0.12
 gunicorn==19.7.1
+flask-mime==0.1.0
