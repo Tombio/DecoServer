@@ -4,20 +4,54 @@
 	<meta charset="utf-8">
 	<title>Deco Server</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+	<!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<div class="container">
-  <div class="jumbotron">
-    <h1>Deco Server</h1>
-    <p>This is a little experimental API to provide decompression planning data.</p>
-    <p>It's based on <a href="https://wrobell.dcmod.org/decotengu/">DecoTengu Library</a></p>
-  </div>
-  <p>Use this service <b>at your own risk</b> and never exceed depths / times you're certified to dive.</p>
-  <p>At the moment there are no warnings for MOD limits or dangerous ppO<sup>2</sup> levels.</p>
-  <h3>Examples: </h3>
-  <div class="well well-sm">/deco/air/:depth/:time <a href="/deco/air/30/40">30 meters, 40 minutes</a></div>
-  <div class="well well-sm">/deco/ean/:oxygen/:depth/:time <a href="/deco/ean/35/30/40">EAN35, 30 meters, 40 minutes</a></div>
-  <div class="well well-sm">/deco/trimix/:oxygen/:helium/:depth/:time <a href="/deco/trimix/21/35/30/40">TRX 21/35, 30 meters, 40 minutes</a></div>
-</div>
+<body>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Deco Server</h1>
+        <p>This is a little experimental API to provide decompression planning data.</p>
+        <p>It's based on <a href="https://wrobell.dcmod.org/decotengu/">DecoTengu Library</a></p>
+      </div>
+      <p>Use this service <b>at your own risk</b> and never exceed depths / times you're certified to dive.</p>
+      <p>At the moment there are no warnings for MOD limits or dangerous ppO<sup>2</sup> levels.</p>
+      <h3>Examples: </h3>
+      <div class="well well-sm">/deco/air/:depth/:time <a href="/deco/air/30/40">30 meters, 40 minutes</a></div>
+      <div class="well well-sm">/deco/ean/:oxygen/:depth/:time <a href="/deco/ean/35/30/40">EAN35, 30 meters, 40 minutes</a></div>
+      <div class="well well-sm">/deco/trimix/:oxygen/:helium/:depth/:time <a href="/deco/trimix/21/35/30/40">TRX 21/35, 30 meters, 40 minutes</a></div>
+      <!-- Main menu -->
+      <h3>Deco tables</h3>
+      <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#menu_air">Air</a></li>
+          <li><a data-toggle="tab" href="#menu_ean">EAN</a></li>
+          <li><a data-toggle="tab" href="#menu_trimix">Trimix</a></li>
+      </ul>
+      <br>
+      <div class="tab-content">
+          <div id="menu_air" class="tab-pane fade in active">
+              <h3>Air tables</h3>
+              <div class="form-group">
+                  <input class="form-control input-lg" id="max_depth" type="text" placeholder="Maximum Depth"/>
+                  <br/>
+                  <!-- <label for="dive_time"></label> -->
+                  <input class="form-control input-lg" id="dive_time" type="text" placeholder="Dive Time"/>
+                  <br/>
+                  <button type="submit" class="btn btn-default">Submit</button>
+              </div>
+          </div>
+          <div id="menu_ean" class="tab-pane fade">
+              <h3>EAN Tables</h3>
+              <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+          </div>
+          <div id="menu_trimix" class="tab-pane fade">
+              <h3>Trimix Menu</h3>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+          </div>
+        </div>
+    </div>
+</body>
 </html>
