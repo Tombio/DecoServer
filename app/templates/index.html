@@ -7,8 +7,25 @@
 	<!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.js"></script>
+
+    <script>
+    $(document).ready(function(){
+        $('#air_table_button').on('click', function(event) {
+            // event.preventDefault(); // To prevent following the link (optional)
+
+            var depth = $('#air_max_depth').val();
+            var time = $('#air_bottom_time').val();
+            var newUrl = $(location).attr('href') + 'deco/air/'+ depth +'/' + time;
+            console.log(newUrl);
+            $('#table_air').bootstrapTable('refresh', {url: newUrl});
+        });
+    });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -34,16 +51,24 @@
       <div class="tab-content">
           <div id="menu_air" class="tab-pane fade in active">
               <h3>Air tables</h3>
-              <div class="form-inline">
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <input class="form-control input-lg" id="max_depth" type="text" placeholder="Maximum Depth"/>
+                  <div class="form-inline">
+                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                          <input class="form-control input-lg" id="air_max_depth" type="text" placeholder="Maximum Depth"/>
+                      </div>
+                      <!-- <label for="dive_time"></label> -->
+                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                          <input class="form-control input-lg" id="air_bottom_time" type="text" placeholder="Bottom Time"/>
+                      </div>
+                      <button id="air_table_button" type="submit" class="btn btn-default">Submit</button>
                   </div>
-                  <!-- <label for="dive_time"></label> -->
-                  <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                      <input class="form-control input-lg" id="dive_time" type="text" placeholder="Bottom Time"/>
-                  </div>
-                  <button type="submit" class="btn btn-default">Submit</button>
-              </div>
+              <table id="table_air" class="table table-striped" data-url="/deco/air/30/40" data-toggle="table" data-toolbar="#toolbar" data-height="460">
+               <thead>
+                   <tr>
+                       <th data-field="depth">Depth</th>
+                       <th data-field="time">Time</th>
+                    </tr>
+                </thead>
+            </table>
           </div>
           <div id="menu_ean" class="tab-pane fade">
               <h3>EAN Tables</h3>
