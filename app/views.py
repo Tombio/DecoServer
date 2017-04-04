@@ -63,16 +63,37 @@ def phases_air(depth, time):
 
     profile = engine.calculate(depth, time)
 
-    time = []
-    data = [[] for y in range(3)]
+    steps = []
     for step in profile:
-        print(max(step.data.tissues, key = lambda x: x[0])[0])
-        time.append(step.time)
-        data[0].append(step.abs_p)
+        steps.append({'phase': step.phase, 'abs_p': step.abs_p, 'time': step.time, 'gas': step.gas, 'data': step.data})
 
-        leading_tissue = max(step.data.tissues, key=lambda x: x[0])[0]
-        data[1].append(step.data.gf * leading_tissue)
-        data[2].append(1.0 * leading_tissue)
-        # steps.append({'phase': step.phase, 'abs_p': step.abs_p, 'time': step.time, 'gas': step.gas, 'data': step.data})
+    return jsonify(steps)
 
-    return jsonify(labels = time, series = data)
+@app.route('/chart/air/<int:depth>/<int:time>')
+def chart_air(depth, time):
+    engine = decotengu.create()
+    engine.add_gas(0, 21)
+    engine.last_stop_6m = True
+
+    profile = engine.calculate(depth, time)
+    # time_max = max(profile.steps.time)
+    print(profile)
+    time = []
+    data = [[] for y in range(5)]
+
+    data[0].append("x")
+    data[1].append("abs_p")
+    data[2].append("leading_tissue_n2")
+    data[3].append("leading_tissue_he")
+    data[4].append("gradient_factor")
+
+    for step in profile:
+        data[0].append(step.time)
+        data[1].append(step.abs_p)
+        leading_tissue_n2 = max(step.data.tissues, key=lambda x: x[0])[0] # Nitrogen
+        data[2].append(leading_tissue_n2)
+        leading_tissue_he = max(step.data.tissues, key=lambda x: x[0])[1] # Helium
+        data[3].append(leading_tissue_he)
+        data[4].append(step.data.gf)
+
+    return jsonify(x = "x", columns = data)
