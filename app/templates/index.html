@@ -17,6 +17,7 @@
     <!-- <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script src="/static/js/dynamic.form.js"></script>
 
 
     <script>
@@ -29,7 +30,7 @@
             var tableUrl = $(location).attr('href') + 'deco/air/'+ depth +'/' + time;
             $('#table_air').bootstrapTable('refresh', {url: tableUrl});
 
-            var chartUrl = $(location).attr('href') + 'chart/air/'+ depth +'/' + time;
+            var chartUrl = $(location).attr('href') + 'chart/trimix/35/40/'+ depth +'/' + time;
             $.get(chartUrl, function(data) {
                 console.log("Data Loaded: " + data);
                 chart_air.load(data);
@@ -61,17 +62,71 @@
       <br>
       <div class="tab-content">
           <div id="menu_air" class="tab-pane fade in active">
-              <h3>Air tables</h3>
-                  <div class="form-inline">
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <input class="form-control input-lg" id="air_max_depth" type="text" placeholder="Maximum Depth"/>
-                      </div>
-                      <!-- <label for="dive_time"></label> -->
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <input class="form-control input-lg" id="air_bottom_time" type="text" placeholder="Bottom Time"/>
-                      </div>
-                      <button id="air_table_button" type="submit" class="btn btn-default">Submit</button>
-                  </div>
+              <h3>Gas List</h3>
+                <form id="diveForm" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-3">
+                            Oxygen
+                        </label>
+                        <label class="col-xs-3">
+                            Helium
+                        </label>
+                        <label class="col-xs-3">
+                            Depth
+                        </label>
+                        <label class="col-xs-2">
+                            Travel Gas
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="gas[0].oxygen" placeholder="Oxygen" value="21"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="gas[0].helium" placeholder="Helium" value="0"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="gas[0].depth" placeholder="Depth" value="0"/>
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="checkbox" class="form-control" name="gas[0].travel_gas" placeholder="Travel Gas" />
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="button" class="btn btn-default addButton"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- The template for adding new field -->
+                    <div class="form-group hide" id="gasTemplate">
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="oxygen" placeholder="Oxygen" />
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="helium" placeholder="Helium" />
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="depth" placeholder="Depth" />
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="checkbox" class="form-control" name="travel_gas" placeholder="Travel Gas" />
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="button" class="btn btn-default removeButton"><i class="glyphicon glyphicon-minus" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-2">
+                            <input class="form-control" name="dive_max_depth" placeholder="Maximum Depth" />
+                        </div>
+                        <div class="col-xs-2">
+                            <input class="form-control" name="dive_bottom_time" placeholder="Bottom time" />
+                        </div>
+                        <div class="col-xs-2 col-xs-offset-4">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                </form>
               <table id="table_air" class="table table-striped" data-url="/deco/air/30/40" data-toggle="table" data-toolbar="#toolbar" data-height="460">
                <thead>
                    <tr>
