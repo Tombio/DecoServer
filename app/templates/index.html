@@ -19,25 +19,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
     <script src="/static/js/dynamic.form.js"></script>
 
-
-    <script>
-
-    $(document).ready(function(){
-        $('#air_table_button').on('click', function(event) {
-            // event.preventDefault(); // To prevent following the link (optional)
-            var depth = $('#air_max_depth').val();
-            var time = $('#air_bottom_time').val();
-            var tableUrl = $(location).attr('href') + 'deco/air/'+ depth +'/' + time;
-            $('#table_air').bootstrapTable('refresh', {url: tableUrl});
-
-            var chartUrl = $(location).attr('href') + 'chart/trimix/35/40/'+ depth +'/' + time;
-            $.get(chartUrl, function(data) {
-                console.log("Data Loaded: " + data);
-                chart_air.load(data);
-            });
-        });
-    });
-    </script>
 </head>
 <body>
     <div class="container">
@@ -117,10 +98,10 @@
 
                     <div class="form-group">
                         <div class="col-xs-2">
-                            <input class="form-control" name="dive_max_depth" placeholder="Maximum Depth" />
+                            <input class="form-control" id="dive_max_depth" placeholder="Maximum Depth" />
                         </div>
                         <div class="col-xs-2">
-                            <input class="form-control" name="dive_bottom_time" placeholder="Bottom time" />
+                            <input class="form-control" id="dive_bottom_time" placeholder="Bottom time" />
                         </div>
                         <div class="col-xs-2 col-xs-offset-4">
                             <button type="submit" class="btn btn-default">Submit</button>

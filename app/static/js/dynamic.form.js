@@ -27,5 +27,20 @@ $(document).ready(function() {
 
             // Remove element containing the fields
             $row.remove();
+        })
+
+        .on('submit',function(e){
+            e.preventDefault();
+            //ajax code here
+            var depth = $('#dive_max_depth').val();
+            var time = $('#dive_bottom_time').val();
+            var tableUrl = $(location).attr('href') + 'deco/air/'+ depth +'/' + time;
+            $('#table_air').bootstrapTable('refresh', {url: tableUrl});
+
+            var chartUrl = $(location).attr('href') + 'chart/trimix/35/40/'+ depth +'/' + time;
+            $.get(chartUrl, function(data) {
+                console.log("Data Loaded: " + data);
+                chart_air.load(data);
+            });
         });
 });
