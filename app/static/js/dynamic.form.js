@@ -1,5 +1,24 @@
+
+
 $(document).ready(function() {
     gasIndex = 0;
+    var test_data = JSON.stringify({
+    	"gas_list": [
+    		{"oxygen": 21, "helium": 40, "depth": 0, "travel_gas": false},
+    		{"oxygen": 50, "helium": 0, "depth": 21, "travel_gas": false},
+    		{"oxygen": 100, "helium": 0, "depth": 6, "travel_gas": false}
+    	],
+    	"dive_plan": {
+    		"maximum_depth": 50,
+    		"bottom_time": 50
+    	},
+    	"deco_model": {
+    		"algorithm": "ZH_L16B_GF",
+    		"gf_low": 30,
+    		"gf_high": 90
+    	}
+    });
+
     $('#diveForm')
         // Add button click handler
         .on('click', '.addButton', function() {
@@ -34,13 +53,30 @@ $(document).ready(function() {
             //ajax code here
             var depth = $('#dive_max_depth').val();
             var time = $('#dive_bottom_time').val();
-            var tableUrl = $(location).attr('href') + 'deco/air/'+ depth +'/' + time;
-            $('#table_air').bootstrapTable('refresh', {url: tableUrl});
 
-            var chartUrl = $(location).attr('href') + 'chart/trimix/35/40/'+ depth +'/' + time;
-            $.get(chartUrl, function(data) {
-                console.log("Data Loaded: " + data);
-                chart_air.load(data);
+            $.ajax({
+                type : "POST",
+                url : "deco",
+                data : test_data,
+                // #contentType : "application/json",
+                success : function(response) {
+                    console.log("Deco data " + response)
+                    $('#deco_table').bootstrapTable('load', response);
+                    $('#deco_table').bootstrapTable('hideLoading');
+                },
+                async : false
+            });
+
+            $.ajax({
+                type : "POST",
+                url : "chart",
+                data : test_data,
+                // #contentType : "application/json",
+                success : function(response) {
+                    console.log("Data Loaded: " + response);
+                    deco_chart.load(response);
+                },
+                async : false
             });
         });
 });

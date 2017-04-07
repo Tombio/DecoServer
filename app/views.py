@@ -1,5 +1,5 @@
 from app import app
-from flask import Flask, jsonify, Response, render_template, request
+from flask import Flask, jsonify, Response, render_template, request, abort
 import decotengu
 
 @app.route('/')
@@ -9,7 +9,11 @@ def index():
 
 @app.route('/deco', methods=['GET', 'POST'])
 def deco():
-    profile = create_profile(request.get_json())
+    try :
+        profile = create_profile(request.get_json(force=True))
+    except:
+        abort(400)
+
     stops = []
     abs_p = []
 
@@ -28,7 +32,7 @@ def deco():
 @app.route('/phases', methods=['GET', 'POST'])
 def phases_air():
 
-    profile = create_profile(request.get_json())
+    profile = create_profile(request.get_json(force=True))
 
     steps = []
     for step in profile[1]:
@@ -38,7 +42,7 @@ def phases_air():
 
 @app.route('/chart', methods=['GET', 'POST'])
 def chart():
-
+    print(request.get_json(force=True))
     profile = create_profile(request.get_json())
 
     time = []
@@ -69,8 +73,10 @@ def chart():
     return jsonify(x = "x", columns = data)
 
 def create_profile(plan):
-    engine = decotengu.create()
 
+    print(plan)
+
+    engine = decotengu.create()
     deco_model = plan["deco_model"]
     if "ZH_L16B_GF" == deco_model["algorithm"]:
         engine.model = decotengu.ZH_L16B_GF()

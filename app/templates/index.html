@@ -108,7 +108,7 @@
                         </div>
                     </div>
                 </form>
-              <table id="table_air" class="table table-striped" data-url="/deco/air/30/40" data-toggle="table" data-toolbar="#toolbar" data-height="460">
+              <table id="deco_table" class="table table-striped" data-toggle="table" data-toolbar="#toolbar" data-height="460">
                <thead>
                    <tr>
                        <th data-field="depth">Depth</th>
@@ -116,10 +116,10 @@
                     </tr>
                 </thead>
             </table>
-            <div id="chart_air_div" class="ct-chart ct-perfect-fourth"></div>
+            <div id="deco_chart" class="ct-chart ct-perfect-fourth"></div>
             <script>
-                chart_air = c3.generate({
-                    bindto: '#chart_air_div',
+                deco_chart = c3.generate({
+                    bindto: '#deco_chart',
                     data: {
                         x: "x",
                         columns: []
