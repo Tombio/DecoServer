@@ -1,0 +1,12 @@
+body {
+  background: url("/static/images/background.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  color: #fff;
+}
+
+div.jumbotron {
+    background-color: rgba(255, 0, 0, 0.0) !important;
+}

@@ -91,7 +91,6 @@ def create_profile(plan):
     # travel – Travel gas mix if true.
     gas_list = plan["gas_list"]
     for gas in gas_list:
-        print(gas["travel_gas"])
         engine.add_gas(gas["depth"], gas["oxygen"], gas["helium"], gas["travel_gas"])
 
     # Always at 6 meters... So silly to hover in 3 meters :D
