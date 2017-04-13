@@ -17,26 +17,9 @@
     <!-- <script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
+    <script src="/static/js/dynamic.form.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.serializejson.js"></script>
 
-
-    <script>
-
-    $(document).ready(function(){
-        $('#air_table_button').on('click', function(event) {
-            // event.preventDefault(); // To prevent following the link (optional)
-            var depth = $('#air_max_depth').val();
-            var time = $('#air_bottom_time').val();
-            var tableUrl = $(location).attr('href') + 'deco/air/'+ depth +'/' + time;
-            $('#table_air').bootstrapTable('refresh', {url: tableUrl});
-
-            var chartUrl = $(location).attr('href') + 'chart/air/'+ depth +'/' + time;
-            $.get(chartUrl, function(data) {
-                console.log("Data Loaded: " + data);
-                chart_air.load(data);
-            });
-        });
-    });
-    </script>
 </head>
 <body>
     <div class="container">
@@ -61,18 +44,75 @@
       <br>
       <div class="tab-content">
           <div id="menu_air" class="tab-pane fade in active">
-              <h3>Air tables</h3>
-                  <div class="form-inline">
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <input class="form-control input-lg" id="air_max_depth" type="text" placeholder="Maximum Depth"/>
-                      </div>
-                      <!-- <label for="dive_time"></label> -->
-                      <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                          <input class="form-control input-lg" id="air_bottom_time" type="text" placeholder="Bottom Time"/>
-                      </div>
-                      <button id="air_table_button" type="submit" class="btn btn-default">Submit</button>
-                  </div>
-              <table id="table_air" class="table table-striped" data-url="/deco/air/30/40" data-toggle="table" data-toolbar="#toolbar" data-height="460">
+              <h3>Gas List</h3>
+                <form id="diveForm" method="post" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-3">
+                            Oxygen
+                        </label>
+                        <label class="col-xs-3">
+                            Helium
+                        </label>
+                        <label class="col-xs-3">
+                            Depth
+                        </label>
+                        <label class="col-xs-2">
+                            Travel Gas
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="gas_list[0][oxygen]:number" placeholder="Oxygen" value="21"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="gas_list[0][helium]:number" placeholder="Helium" value="0"/>
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="gas_list[0][depth]:number" placeholder="Depth" value="0"/>
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="checkbox" class="form-control" name="gas_list[0][travel_gas]:boolean" placeholder="Travel Gas" />
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="button" class="btn btn-default addButton"><i class="glyphicon glyphicon-plus" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- The template for adding new field -->
+                    <div class="form-group hide" id="gasTemplate">
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="oxygen:skip" placeholder="Oxygen" />
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="helium:skip" placeholder="Helium" />
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" name="depth:skip" placeholder="Depth" />
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="checkbox" class="form-control" name="travel_gas:skip" placeholder="Travel Gas" />
+                        </div>
+                        <div class="col-xs-1">
+                            <button type="button" class="btn btn-default removeButton"><i class="glyphicon glyphicon-minus" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-2">
+                            <input type="text" class="form-control" name="dive_plan[maximum_depth]:number" placeholder="Maximum Depth" />
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="text" class="form-control" name="dive_plan[bottom_time]:number" placeholder="Bottom time" />
+                        </div>
+                        <div class="col-xs-2 col-xs-offset-4">
+                            <button type="submit" class="btn btn-default">Submit</button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="deco_model[algorithm]" value="ZH_L16B_GF" />
+                	<input type="hidden" name="deco_model[gf_low]:number" value="30" />
+                    <input type="hidden" name="deco_model[gf_high]:number" value="90" />
+                </form>
+              <table id="deco_table" class="table table-striped" data-toggle="table" data-toolbar="#toolbar" data-height="460">
                <thead>
                    <tr>
                        <th data-field="depth">Depth</th>
@@ -80,10 +120,10 @@
                     </tr>
                 </thead>
             </table>
-            <div id="chart_air_div" class="ct-chart ct-perfect-fourth"></div>
+            <div id="deco_chart" class="ct-chart ct-perfect-fourth"></div>
             <script>
-                chart_air = c3.generate({
-                    bindto: '#chart_air_div',
+                deco_chart = c3.generate({
+                    bindto: '#deco_chart',
                     data: {
                         x: "x",
                         columns: []
