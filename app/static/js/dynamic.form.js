@@ -1,23 +1,5 @@
-
-
 $(document).ready(function() {
     gasIndex = 0;
-    var test_data = JSON.stringify({
-    	"gas_list": [
-    		{"oxygen": 21, "helium": 40, "depth": 0, "travel_gas": false},
-    		{"oxygen": 50, "helium": 0, "depth": 21, "travel_gas": false},
-    		{"oxygen": 100, "helium": 0, "depth": 6, "travel_gas": false}
-    	],
-    	"dive_plan": {
-    		"maximum_depth": 50,
-    		"bottom_time": 50
-    	},
-    	"deco_model": {
-    		"algorithm": "ZH_L16B_GF",
-    		"gf_low": 30,
-    		"gf_high": 90
-    	}
-    });
 
     $('#diveForm')
         // Add button click handler
@@ -33,10 +15,10 @@ $(document).ready(function() {
 
             // Update the name attributes
             $clone
-                .find('[name="oxygen"]').attr('name', 'gas[' + gasIndex + '].oxygen').end()
-                .find('[name="helium"]').attr('name', 'gas[' + gasIndex + '].helium').end()
-                .find('[name="depth"]').attr('name', 'gas[' + gasIndex + '].depth').end()
-                .find('[name="travel_gas"]').attr('name', 'gas[' + gasIndex + '].travel_gas').end();
+                .find('[name="oxygen:skip"]').attr('name', 'gas_list[' + gasIndex + '][oxygen]:number').end()
+                .find('[name="helium:skip"]').attr('name', 'gas_list[' + gasIndex + '][helium]:number').end()
+                .find('[name="depth:skip"]').attr('name', 'gas_list[' + gasIndex + '][depth]:number').end()
+                .find('[name="travel_gas:skip"]').attr('name', 'gas_list[' + gasIndex + '][travel_gas]:boolean').end()
         })
 
         // Remove button click handler
@@ -50,14 +32,17 @@ $(document).ready(function() {
 
         .on('submit',function(e){
             e.preventDefault();
-            //ajax code here
-            var depth = $('#dive_max_depth').val();
-            var time = $('#dive_bottom_time').val();
+
+            var data = $('#diveForm').serializeJSON({
+                checkboxUncheckedValue: "false",
+                useIntKeysAsArrayIndex: true});
+
+            console.log(JSON.stringify(data));
 
             $.ajax({
                 type : "POST",
                 url : "deco",
-                data : test_data,
+                data : JSON.stringify(data),
                 // #contentType : "application/json",
                 success : function(response) {
                     console.log("Deco data " + response)
@@ -70,7 +55,7 @@ $(document).ready(function() {
             $.ajax({
                 type : "POST",
                 url : "chart",
-                data : test_data,
+                data : JSON.stringify(data),
                 // #contentType : "application/json",
                 success : function(response) {
                     console.log("Data Loaded: " + response);
