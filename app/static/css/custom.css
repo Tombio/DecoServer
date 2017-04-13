@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Palanquin+Dark|Roboto:300');
+
 body {
   background: url("/static/images/background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
@@ -5,8 +7,14 @@ body {
   -o-background-size: cover;
   background-size: cover;
   color: #fff;
+  font-family: 'Roboto', sans-serif;
 }
 
 div.jumbotron {
     background-color: rgba(255, 0, 0, 0.0) !important;
+    font-family: 'Palanquin Dark', sans-serif !important;
+}
+
+div.jumbotron p {
+    font-family: 'Roboto', sans-serif !important;
 }
