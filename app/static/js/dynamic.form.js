@@ -25,9 +25,8 @@ $(document).ready(function() {
         .on('click', '.removeButton', function() {
             var $row  = $(this).parents('.form-group'),
                 index = $row.attr('data-gas-index');
-
-            // Remove element containing the fields
-            $row.remove();
+                $row.remove();
+                gasIndex--;
         })
 
         .on('submit',function(e){
