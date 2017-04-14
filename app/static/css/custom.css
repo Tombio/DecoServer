@@ -10,6 +10,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+div {
+    background-color: rgba(255, 0, 0, 0.0) !important;
+}
+
 div.jumbotron {
     background-color: rgba(255, 0, 0, 0.0) !important;
     font-family: 'Palanquin Dark', sans-serif !important;
@@ -17,4 +21,12 @@ div.jumbotron {
 
 div.jumbotron p {
     font-family: 'Roboto', sans-serif !important;
+}
+
+div.well, div.well-sm {
+    background-color: rgba(255, 0, 0, 0.0) !important;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #101010;
 }

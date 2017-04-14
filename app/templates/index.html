@@ -96,9 +96,11 @@
                             <button type="button" class="btn btn-default removeButton"><i class="glyphicon glyphicon-minus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-
+                    <div>
+                        <hr/>
+                    </div>
                     <div class="form-group">
-                        <div class="col-xs-1">
+                        <div class="col-xs-2">
                             <label>Dive Plan</label>
                         </div>
                         <div class="col-xs-2">
@@ -110,10 +112,9 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-xs-1">
+                        <div class="col-xs-2">
                             <label>Deco Model</label>
                         </div>
-                        <input type="hidden" name="deco_model[algorithm]" value="ZH_L16B_GF" />
                         <div class="col-xs-2">
                             <input type="text" class="form-control" name="deco_model[gf_low]:number" placeholder="GF Low" value="30"/>
                         </div>
@@ -124,6 +125,8 @@
                             <button type="submit" class="btn btn-default">Submit</button>
                         </div>
                     </div>
+                    <!-- This needs to move to deco model -->
+                    <input type="hidden" name="deco_model[algorithm]" value="ZH_L16B_GF" />
                 </form>
               <table id="deco_table" class="table table-striped" data-toggle="table" data-toolbar="#toolbar" data-height="460">
                <thead>
