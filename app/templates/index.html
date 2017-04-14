@@ -6,6 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/custom.css">
 	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="https://rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.css">
     <!-- <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css"> -->
@@ -19,7 +20,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.11/c3.min.js"></script>
     <script src="/static/js/dynamic.form.js"></script>
     <script type="text/javascript" src="/static/js/jquery.serializejson.js"></script>
-
 </head>
 <body>
     <div class="container">
@@ -96,21 +96,37 @@
                             <button type="button" class="btn btn-default removeButton"><i class="glyphicon glyphicon-minus" aria-hidden="true"></i></button>
                         </div>
                     </div>
-
+                    <div>
+                        <hr/>
+                    </div>
                     <div class="form-group">
+                        <div class="col-xs-2">
+                            <label>Dive Plan</label>
+                        </div>
                         <div class="col-xs-2">
                             <input type="text" class="form-control" name="dive_plan[maximum_depth]:number" placeholder="Maximum Depth" />
                         </div>
                         <div class="col-xs-2">
                             <input type="text" class="form-control" name="dive_plan[bottom_time]:number" placeholder="Bottom time" />
                         </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-2">
+                            <label>Deco Model</label>
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="text" class="form-control" name="deco_model[gf_low]:number" placeholder="GF Low" value="30"/>
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="text" class="form-control" name="deco_model[gf_high]:number" placeholder="GF High" value="90"/>
+                        </div>
                         <div class="col-xs-2 col-xs-offset-4">
                             <button type="submit" class="btn btn-default">Submit</button>
                         </div>
                     </div>
+                    <!-- This needs to move to deco model -->
                     <input type="hidden" name="deco_model[algorithm]" value="ZH_L16B_GF" />
-                	<input type="hidden" name="deco_model[gf_low]:number" value="30" />
-                    <input type="hidden" name="deco_model[gf_high]:number" value="90" />
                 </form>
               <table id="deco_table" class="table table-striped" data-toggle="table" data-toolbar="#toolbar" data-height="460">
                <thead>
