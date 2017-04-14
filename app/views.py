@@ -7,7 +7,40 @@ import decotengu
 def index():
     return render_template('index.html')
 
-@app.route('/deco', methods=['GET', 'POST'])
+
+@app.route('/deco/trimix/<int:oxygen>/<int:helium>/<int:depth>/<int:time>', methods=['GET'])
+def deco_table(oxygen, helium, depth, time):
+    last_stop_6m = True
+
+    engine = decotengu.create()
+    engine.add_gas(0, oxygen, helium)
+    engine.last_stop_6m = last_stop_6m
+
+    profile = engine.calculate(depth, time)
+
+    stops = []
+    abs_p = []
+
+    print(engine.deco_table.total)
+    for step in profile:
+        # Just stupidly exhaust iterator
+        pass
+
+    for stop in engine.deco_table:
+        print(stop)
+        stops.append({'depth': stop.depth, 'time': stop.time})
+
+    return jsonify(stops)
+
+@app.route('/deco/ean/<int:oxygen>/<int:depth>/<int:time>', methods=['GET'])
+def deco_ean(oxygen, depth, time):
+    return deco_table(oxygen, 0, depth, time)
+
+@app.route('/deco/air/<int:depth>/<int:time>', methods=['GET'])
+def deco_air(depth, time):
+    return deco_ean(21, depth, time)
+
+@app.route('/deco', methods=['POST'])
 def deco():
     try :
         profile = create_profile(request.get_json(force=True))
@@ -29,7 +62,7 @@ def deco():
     return jsonify(stops)
     #return Response(json.dumps(engine.deco_table), mimetype='application/json')
 
-@app.route('/phases', methods=['GET', 'POST'])
+@app.route('/phases', methods=['POST'])
 def phases_air():
 
     profile = create_profile(request.get_json(force=True))
@@ -40,7 +73,7 @@ def phases_air():
 
     return jsonify(steps)
 
-@app.route('/chart', methods=['GET', 'POST'])
+@app.route('/chart', methods=['POST'])
 def chart():
     print(request.get_json(force=True))
     profile = create_profile(request.get_json())
